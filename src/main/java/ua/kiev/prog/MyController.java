@@ -43,11 +43,12 @@ public class MyController {
 
     @PostMapping(value = "/update")
     public String update(@RequestParam(required = false) String email,
-                         @RequestParam(required = false) String phone) {
+                         @RequestParam(required = false) String phone,
+                         @RequestParam(required = false) String address) {
         User user = getCurrentUser();
 
         String login = user.getUsername();
-        userService.updateUser(login, email, phone);
+        userService.updateUser(login, email, phone, address);
 
         return "redirect:/";
     }
@@ -60,6 +61,10 @@ public class MyController {
                          @RequestParam(required = false) String address,
                          Model model) {
         String passHash = passwordEncoder.encode(password);
+
+        if(address.isEmpty()){
+            address = "no address";
+        }
 
         if ( ! userService.addUser(login, passHash, UserRole.USER, email, phone, address)) {
             model.addAttribute("exists", true);

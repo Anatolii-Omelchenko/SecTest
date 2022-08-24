@@ -27,13 +27,13 @@ public class AppConfig extends GlobalMethodSecurityConfiguration {
             public void run(String... strings) throws Exception {
                 userService.addUser(ADMIN,
                         encoder.encode("password"),
-                        UserRole.ADMIN, "", "", "");
+                        UserRole.ADMIN, "", "", "no address");
                 userService.addUser("user",
                         encoder.encode("password"),
-                        UserRole.USER, "", "", "");
+                        UserRole.USER, "", "", "no address");
                 userService.addUser("moderator",
                         encoder.encode("mpassword"),
-                        UserRole.MODERATOR, "","","");
+                        UserRole.MODERATOR, "","","no address");
             }
         };
     }

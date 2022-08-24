@@ -29,6 +29,8 @@
                         </c:if>
                         <td><c:out value="${user.login}"/></td>
                         <td><c:out value="${user.role}"/></td>
+                        <td><c:out value="${user.address}"/></td>
+
                     </tr>
                 </c:forEach>
             </table>
