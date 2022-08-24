@@ -33,6 +33,7 @@ public class MyController {
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
         model.addAttribute("admin", isAdmin(user));
+        model.addAttribute("moderator", isModerator(user));
         model.addAttribute("email", dbUser.getEmail());
         model.addAttribute("phone", dbUser.getPhone());
         model.addAttribute("address", dbUser.getAddress());
@@ -89,9 +90,11 @@ public class MyController {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ROLE_ADMIN')") // !!!
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')") // !!!
     public String admin(Model model) {
+        User user = getCurrentUser();
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("admin", isAdmin(user));
         return "admin";
     }
 
@@ -116,6 +119,17 @@ public class MyController {
 
         for (GrantedAuthority auth : roles) {
             if ("ROLE_ADMIN".equals(auth.getAuthority()))
+                return true;
+        }
+
+        return false;
+    }
+
+    private boolean isModerator(User user) {
+        Collection<GrantedAuthority> roles = user.getAuthorities();
+
+        for (GrantedAuthority auth : roles) {
+            if ("ROLE_MODERATOR".equals(auth.getAuthority()))
                 return true;
         }
 
