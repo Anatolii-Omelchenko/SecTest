@@ -1,7 +1,7 @@
 package ua.kiev.prog;
 
 public enum UserRole {
-    ADMIN, USER;
+    ADMIN, USER, MODERATOR;
 
     @Override
     public String toString() {
